@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import './providers/product_provider.dart';
+import './screens/product_detail_screen.dart';
+import './screens/products_overview_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,29 +15,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MyShop',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => ProductProvider(),
+      child: MaterialApp(
+        title: 'MyShop',
+        theme: ThemeData(
+            primarySwatch: Colors.purple,
+            colorScheme:
+                ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple)
+                    .copyWith(secondary: Colors.deepOrange),
+            fontFamily: 'Lato'),
+        home: const ProductsOverviewScreen(),
+        routes: {ProductDetail.routeName: (context) => const ProductDetail()},
       ),
-      home: const MyHomePage(title: 'MyShop'),
     );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: const Center(
-          child: Text('Hello from the other side'),
-        ));
   }
 }
